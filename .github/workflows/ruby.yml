@@ -1,0 +1,37 @@
+name: Ruby
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby 2.6
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - name: Build and test with Rake
+      run: |
+        gem install jekyll bundler
+        bundle install --jobs 4 --retry 3
+        bundle exec jekyll build
+    - name: Commit to repository
+    env:
+      GITHUB_TOKEN: ${{ secrets.github_token }}
+      COMMIT_MSG: |
+        Automated update
+      skip-checks: true
+      run: |
+        # Hard-code user configuration
+        git config user.email "j.cabello.ramos@gmail.com"
+        git config user.name "jycabello"
+        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/jycabello.github.io.git
+        cd jycabello.github.io
+        git checkout master
+        cp -rf ../_site/* .
+        git add .
+        # Only commit and push if we have changes
+        git diff --quiet && git diff --staged --quiet || (git commit -m "${COMMIT_MSG}"; git push origin master)
