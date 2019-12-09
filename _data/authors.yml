@@ -1,0 +1,11 @@
+yeray:
+  username: Yeray
+  name: Yeray Cabello
+  location: Nieuwegein, The Netherlands
+  url_full: https://github.com/JYCabello/
+  url: github.com/JYCabello
+  bio: Software developer, functional Kotlin (arrow), C# and TypeScript for a living and F# and Haskell as an aficionado
+  picture: assets/images/avatar.jpeg
+  facebook: False
+  twitter: jycabello
+  cover: assets/images/blog-cover-dark.png
