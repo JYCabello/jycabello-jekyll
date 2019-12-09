@@ -1,8 +1,4 @@
-## Jasper2
-
-[![Build Status](https://travis-ci.org/jorgecastilloprz/jorgecastilloprz.github.io.svg?branch=master)](https://travis-ci.org/jorgecastilloprz/jorgecastilloprz.github.io)
-[![Ruby](https://img.shields.io/badge/ruby-2.5.1-blue.svg?style=flat)](http://travis-ci.org/jorgecastilloprz/jorgecastilloprz.github.io)
-[![Jekyll](https://img.shields.io/badge/jekyll-3.7.4-blue.svg?style=flat)](http://travis-ci.org/jorgecastilloprz/jorgecastilloprz.github.io)
+## Yeray Cabello's blog
 
 This is a full-featured port of Ghost's default theme [Casper](https://github.com/tryghost/casper)
 *v2.1.9* for [Jekyll](https://jekyllrb.com/) / [GitHub Pages](https://pages.github.com/).
