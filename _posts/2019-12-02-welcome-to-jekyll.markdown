@@ -1,8 +1,11 @@
 ---
 layout: post
 title:  "Welcome to Jekyll!"
+navigation: True
+tags: [kotlin, fp]
 date:   2019-12-02 20:12:13 +0100
-categories: jekyll update
+class: post-template
+author: yeray
 ---
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
@@ -23,6 +26,8 @@ print_hi('Tom')
 
 ``` kotlin
 fun banana(something: String): Boolean = true
+
+val meh = banana("meh")
 ````
 
 ``` cs

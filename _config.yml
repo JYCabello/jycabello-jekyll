@@ -7,24 +7,23 @@ words_per_minute: 200
 
 # edit baseurl to simply '/' if using as your personal page (instead of a project page)
 baseurl: /
-url: https://jorgecastilloprz.github.io
+url: https://jycabello.github.io
 
 # Website info
-title: 👨‍💻 Jorge Castillo
-description: You'll find all my tech posts here.
+title: 🛠 Yeray Cabello
+description: A sneak peek into my brain.
 cover: assets/images/blog-cover-dark.png
 favicon: assets/images/favicon.png
-production_url: https://jorgecastilloprz.github.io/
-source_url: https://github.com/jorgecastilloprz/jorgecastilloprz.github.io
-CNAME: jorgecastillo.dev
+production_url: https://jycabello.github.io/
+source_url: https://github.com/JYCabello/jycabello-jekyll
 
 # Social info
 navigation: True # show the navbar links
-twitter: jorgecastillopr # replace by your username
+twitter: jycabello # replace by your username
 
 # Disqus
 disqus: True
-disqus_shortname: jorgecastilloblog # replace with your disqus username
+disqus_shortname: ycabello # replace with your disqus username
 
 # Google Analytics
 google_analytics: UA-142413286-1 # replace with your GA tracking identifier
@@ -38,55 +37,9 @@ permalink: /:title
 # Tags' info in `_data/tags_info.yml`
 
 # gems and other configs
-plugins_dir: [_plugins]
+plugins_dir: _plugins
 plugins: [jekyll-paginate, jekyll-feed]
 future: true
 
 feed:
   path: feed.xml
-
-# Additional settings available on the front-matter
-# Site logo in the index.html (as in demo.ghost.io)
-# Author's page cover in _layouts/author.html
-# The same for page.html and tag.html layouts
-# Post's page cover as a per-post basis _posts/...
-# Disqus comments as a per-post basis
-# ...
-
-# Settings for builing master branch with travis-ci
-# with jekyll-travis
-
-# Settings for deploy rake task
-# Username and repo of Github repo, e.g.
-# https://github.com/USERNAME/REPO.git
-# username defaults to ENV['GIT_NAME'] used by Travis
-# repo defaults to USERNAME.github.io
-# Branch defaults to "source" for USERNAME.github.io
-# or "master" otherwise
-safe: False
-lsi: False
-username: jorgecastilloprz
-repo: jorgecastilloprz.github.io
-branch: source
-relative_source: ../jorgecastilloprz.github.io/
-destination: _site
-production_url:  https://jorgecastilloprz.github.io/
-source_url:  https://github.com/jorgecastilloprz/jorgecastilloprz.github.io
-
-exclude:
-  - assets/css
-  - node_modules
-  - vendor
-  - .travis.yml
-  - Gemfile
-  - Gemfile.lock
-  - GHOST.txt
-  - gulpfile.js
-  - LICENSE
-  - package.json
-  - Rakefile
-  - README.md
-  - script.py
-  - changelog.md
-  - "*.Rmd"
-  - .git*
