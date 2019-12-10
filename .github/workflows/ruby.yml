@@ -1,0 +1,48 @@
+name: Ruby
+
+on:
+  push:
+    branches:
+      - master
+    pull_request:
+      branches:
+        - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby 2.6
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - name: Setup ruby cache
+      uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+    - name: Build static site
+      run: |
+        gem install bundler
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
+        bundle exec jekyll build
+    - name: Checkout static site and make a commit
+      env:
+        GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
+        skip-checks: true
+      run: |
+        # Hard-code user configuration
+        git config --global user.email "j.cabello.ramos@gmail.com"
+        git config --global user.name "jycabello"
+        cd ${HOME}
+        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/JYCabello/jycabello.github.io.git
+        cd jycabello.github.io
+        git checkout master
+        cp -rf ${GITHUB_WORKSPACE}/_site/* .
+        git add .
+        git commit -m "From commit ${GITHUB_SHA}"
+        git push origin master
