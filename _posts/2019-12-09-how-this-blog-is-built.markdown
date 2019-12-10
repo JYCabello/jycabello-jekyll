@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "Getting it through"
-cover: assets/images/jason-blackeye-fortress-unsplash.png
+title:  "How this blog is built"
+cover: assets/images/gears.png
 navigation: True
-tags: [kotlin, fp]
-date:   2019-12-02 20:12:13 +0100
+tags: [meta, automation]
+date:   2019-12-09 20:12:13 +0100
 class: post-template
 author: yeray
 comments: true
@@ -31,7 +31,7 @@ print_hi('Tom')
 fun banana(something: String): Boolean = true
 
 val meh = banana("meh")
-````
+```
 
 ``` cs
 public bool Banana(string something) => true

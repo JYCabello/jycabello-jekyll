@@ -2,10 +2,11 @@
 /* ---------------------------------------------------------- */
 
 :root {
-    /* Colours */
     --blue: #3eb0ef;
     --green: #a4d037;
+    --darkgreen: #00880b;
     --purple: #ad26b4;
+    --darkpurple: #841d89;
     --yellow: #fecd35;
     --red: #f05230;
     --darkgrey: #1d2d35;
@@ -14,6 +15,8 @@
     --whitegrey: #e5eff5;
     --pink: #fa3a57;
     --brown: #a3821a;
+
+    --notSoBoldFontWeight: 700;
 }
 
 /* Reset
