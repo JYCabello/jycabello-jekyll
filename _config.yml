@@ -1,11 +1,10 @@
 # Jekyll configuration
 markdown: kramdown
 highlighter: rouge
-paginate: 100 # it will paginate after this number
+paginate: 6
 language: 'en-us'
 words_per_minute: 200
 
-# edit baseurl to simply '/' if using as your personal page (instead of a project page)
 baseurl: /
 url: https://jycabello.github.io
 
@@ -17,13 +16,11 @@ favicon: assets/images/favicon.png
 production_url: https://jycabello.github.io/
 source_url: https://github.com/JYCabello/jycabello-jekyll
 
-# Social info
 navigation: True # show the navbar links
-twitter: jycabello # replace by your username
+twitter: jycabello
 
-# Disqus
 disqus: True
-disqus_shortname: ycabello # replace with your disqus username
+disqus_shortname: ycabello
 
 google_analytics: UA-114315531-3
 
@@ -32,7 +29,6 @@ permalink: /:title
 # Authors' info in `_data/authors.yml`
 # Tags' info in `_data/tags_info.yml`
 
-# gems and other configs
 plugins_dir: _plugins
 plugins: [jekyll-paginate, jekyll-feed]
 future: true

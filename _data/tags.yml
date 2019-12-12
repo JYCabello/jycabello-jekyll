@@ -1,8 +1,20 @@
-fables:
+meta:
   name: meta
   description: Articles about this blog itself.
   cover: assets/images/blog-cover-dark.png
-flutter:
+automation:
   name: automation
   description: From continuous integration to auto ordering toilet paper.
+  cover: assets/images/blog-cover-dark.png
+basic:
+  name: basic
+  description: Basic technical content, for beginners and veterans alike. Most of the code there can be copy pasted with minor modifications.
+  cover: assets/images/blog-cover-dark.png
+intermediate:
+  name: intermediate
+  description: Technical content that requires some previous knowledge. Make sure that you get a grasp of what's going on before trying this at home.
+  cover: assets/images/blog-cover-dark.png
+advanced:
+  name: advanced
+  description: Tehcnical knowledge built on layers that are built on layers of previous knowledge. These bits are meant to be understood, not to be used out of the box.
   cover: assets/images/blog-cover-dark.png

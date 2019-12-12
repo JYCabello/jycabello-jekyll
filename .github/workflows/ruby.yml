@@ -41,6 +41,7 @@ jobs:
         git clone https://x-access-token:${GITHUB_TOKEN}@github.com/JYCabello/jycabello.github.io.git
         cd jycabello.github.io
         git checkout master
+        rm -r *
         cp -rf ${GITHUB_WORKSPACE}/_site/* .
         git add .
         git commit -m "From commit ${GITHUB_SHA}"

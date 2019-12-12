@@ -741,9 +741,14 @@ The first (most recent) post in the list is styled to be bigger than the others 
 }
 
 .post-full-content a:hover {
-    text-decoration-color: #ffe000;
+    text-decoration-color: var(--purple);
     text-decoration-thickness: 0.2em;
     text-decoration-width: 0.2em;
+}
+
+.post-full-content del {
+    color: var(--darkpurple);
+    text-decoration-color: var(--green);
 }
 
 .post-full-content strong,
