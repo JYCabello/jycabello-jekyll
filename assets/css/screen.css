@@ -735,6 +735,7 @@ The first (most recent) post in the list is styled to be bigger than the others 
     transition-property: text-decoration-color, text-decoration-thickness, text-decoration-width;
     box-sizing: border-box;
     text-decoration: underline;
+    text-decoration-color: var(--green);
     vertical-align: baseline;
     margin: 0;
     padding: 0;
