@@ -30,7 +30,7 @@ of his blog.
 Even worse, if you go to the [Jasper2](https://github.com/jekyller/jasper2) site, you'll find that it has a configuration by default to build with
 [Travis](https://travis-ci.com/), but Github actions just got released and I just couldn't resist.
 
-#### Enough introduction, let's get to the main course
+#### Enough appetizers, let's get to the main course
 
 _You can always find the latest version of this pipeline in the [source repository](https://github.com/JYCabello/jycabello-jekyll)_
 
