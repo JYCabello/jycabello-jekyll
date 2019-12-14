@@ -436,13 +436,17 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     background: var(--darkpurple);
     margin-bottom: 8px;
     font-family: 'Noto Sans', sans-serif;
-    color: var(--black);
+    color: var(--whitegrey);
     font-size: 13px;
     font-weight: 500;
 }
 
 .post-card-tags:hover {
     background: var(--darkgreen);
+}
+
+.post-card-tags a:hover {
+    text-decoration: none;
 }
 
 .post-card-title {
