@@ -4,7 +4,7 @@ title:  "Plunder with thunder"
 cover: assets/images/pirate-flag.png
 navigation: True
 tags: [professional-growth]
-date:   2019-12-15 20:12:13 +0100
+date:   2019-12-26 16:12:13 +0100
 class: post-template
 author: yeray
 comments: true
@@ -53,13 +53,17 @@ middle of reading two books, one on [Kotlin](https://www.manning.com/books/the-j
 keep reading mentions on how this and that monad is implemented on F# and, having specialized in Microsoft technologies for years, I spin up
 Visual Studio and before you notice I'm further ahead in an [F# book](https://www.apress.com/gp/book/9781484207413) than I'm on the other ones.
 
-That's the softest case I've had of that, as learning about F# deeply relates to the work I've been doing in Kotlin.
+That's the softest case I've had of that, as learning about F# deeply relates to the work I've been doing in Kotlin, but I've done far worse,
+I've never regretted learning anything, but I've spent days mastering a video game that I absolutely abhorred all the time I played it.
+
+I've successfully handled that by always being mid-read of several books that are categorically different: One fantasy novel, something on
+philosophy, two or three technical books on different topics and then a long comic book (I refuse to call them graphic novels).  
 
 The other issue is that, as a human being with an ego, I have a tendency to think that I know what I'm doing, which leads me to try to solve
 problems that a lot of people, smarter than me, have solved already.
 
 In the end, I bargain with myself, I offer childish me a treat, be it playing a video game or learning about controlling a robotic arm with the
-raspberry PI I bought with that idea in mind but that I only use as a [retro gaming station](https://retropie.org.uk/).
+raspberry PI I bought with that idea in mind, but that I only use as a [retro gaming station](https://retropie.org.uk/).
 
 And then I binge watch Netflix's "The Witcher" and I remember that I have a draft of a fantasy novel that I never finished. I'm completing the
 schema in parallel while writing this articles. Who knows, I might write the next big fantasy series as a result.
@@ -72,7 +76,7 @@ Same thing as I'm doing in my career, I'm seeking mentorship in the areas that i
 and prioritize them based on how much I think they will help me and if I don't know, I ask.
 
 I'm not even in command of myself, but I can trick me into being better and I won't ever, *ever*, **ever** hesitate again when it comes to ask for
-counsel coming from the experience of other that are ahead of me.
+counsel coming from the experience of others that are ahead of me.
 
 Should you try any of this? I don't know, I'm only quite sure that you should not try **all** of this at the same time. You are not me, hence all
 that works for me is unlikely to do so for you. Maybe you need to finish your formal studies, perhaps you should follow every side scent you find
