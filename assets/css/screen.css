@@ -953,12 +953,17 @@ Usage (In Ghost editor):
     margin: 0.5em 0;
     padding: 1em 0 1.5em;
     border: 0;
-    color: var(--blue);
+    color: var(--darkgreen);
     font-family: Georgia,serif;
     font-size: 3.2rem;
     line-height: 1.35em;
     text-align: center;
 }
+
+.post-full-content h6 {
+    color: var(--darkpurple);
+}
+
 @media (min-width: 1180px) {
     .post-full-content h5 {
         max-width: 1060px;

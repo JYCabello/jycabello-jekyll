@@ -4,7 +4,7 @@ title:  "Pushing to a repository in github actions"
 cover: assets/images/gears.png
 navigation: True
 tags: [meta, automation, basic]
-date:   2019-12-09 20:12:13 +0100
+date:   2019-12-11 20:12:13 +0100
 class: post-template
 author: yeray
 comments: true
@@ -65,7 +65,7 @@ on:
       uses: actions/cache@v1
       with:
         path: vendor/bundle
-        key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+{% raw %}        key: ${{ runner.os }}-gem-${{ hashFiles("**/Gemfile.lock") }}{% endraw %}
 ```
 
 - Installing the gems (or consuming the cache if it was here)

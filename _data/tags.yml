@@ -18,3 +18,7 @@ advanced:
   name: advanced
   description: Tehcnical knowledge built on layers that are built on layers of previous knowledge. These bits are meant to be understood, not to be used out of the box.
   cover: assets/images/blog-cover-dark.png
+professional-growth:
+  name: professional-growth
+  description: Articles about becoming a better professional
+  cover: assets/images/blog-cover-dark.png
