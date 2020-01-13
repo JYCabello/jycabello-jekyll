@@ -26,6 +26,10 @@ Quality advocate, refactoring for a living and perpetual boy scout. My philosoph
 always leave any file you touch a little bit cleaner than you found it. Try to avoid refactoring for the sake of refactoring unless your technical debt has
 reached a breaking point. 
 
+I'm not that clever.
+
+I don't know that much.
+
 <img src="../assets/images/portrait.png" alt="My portrait pic" style="width:256px;height:256px">
 
 > My wife truly sees me through a unique lens.
