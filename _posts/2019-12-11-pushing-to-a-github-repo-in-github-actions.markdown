@@ -121,10 +121,10 @@ copy the built static site, make a commit and push it back.
         skip-checks: true
       run: |
         git config --global user.email "YOUR_EMAIL_ADDRESS"
-        git config --global user.name "YOUR_USER_NAME"
+        git config --global user.name "YOUR_USER_NAME_FOR_THE_TARGET_REPO"
         cd ${HOME}
-        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/JYCabello/jycabello.github.io.git
-        cd jycabello.github.io
+        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/YOUR_USER_NAME_FOR_THE_TARGET_REPO/MY_PAGE_NAME.github.io.git
+        cd MY_PAGE_NAME.github.io
         git checkout master
         rm -r *
         cp -rf ${GITHUB_WORKSPACE}/_site/* .

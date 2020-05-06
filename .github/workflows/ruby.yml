@@ -35,10 +35,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         skip-checks: true
       run: |
-        git config --global user.email "${MY_EMAIL}"
+        git config --global user.email "${{ secrets.MY_EMAIL }}"
         git config --global user.name "${{ github.repository_owner }}"
         cd ${HOME}
-        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/JYCabello/jycabello.github.io.git
+        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository_owner }}/jycabello.github.io.git
         cd jycabello.github.io
         git checkout master
         rm -r *
