@@ -120,8 +120,8 @@ copy the built static site, make a commit and push it back.
         GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         skip-checks: true
       run: |
-        git config --global user.email "j.cabello.ramos@gmail.com"
-        git config --global user.name "jycabello"
+        git config --global user.email "YOUR_EMAIL_ADDRESS"
+        git config --global user.name "YOUR_USER_NAME"
         cd ${HOME}
         git clone https://x-access-token:${GITHUB_TOKEN}@github.com/JYCabello/jycabello.github.io.git
         cd jycabello.github.io

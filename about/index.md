@@ -16,15 +16,15 @@ backend, I've worked with Ruby, C# (both MVC and WebApi), node (express), angula
 
 Architecturally speaking I advocate for layered structures and message based communication between verticals.
 
-On deployment strategies I'm more inclined towards distributed systems, but I'm not allergic to monoliths (and yes, you can use a message based communication
-in a monolith).
+On deployment strategies I'm more inclined towards monoliths (yes, you can use a message based communication
+in a monolith), but I'm not allergic to distributed systems.
 
 About the eternal war of dynamic vs static types: Static, any day of the week. Having the flexibility of asking a car to fly sounds cool until you are inside
 the car and it actually tries to fly.
 
 Quality advocate, refactoring for a living and perpetual boy scout. My philosophy for software construction is: Make your code work, clean it just enough and
 always leave any file you touch a little bit cleaner than you found it. Try to avoid refactoring for the sake of refactoring unless your technical debt has
-reached a breaking point. 
+reached a breaking point.
 
 I'm not that clever.
 
