@@ -36,7 +36,7 @@ jobs:
         skip-checks: true
       run: |
         git config --global user.email "${MY_EMAIL}"
-        git config --global user.name "jycabello"
+        git config --global user.name "${github.repository_owner}"
         cd ${HOME}
         git clone https://x-access-token:${GITHUB_TOKEN}@github.com/JYCabello/jycabello.github.io.git
         cd jycabello.github.io
