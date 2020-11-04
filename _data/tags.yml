@@ -22,3 +22,7 @@ professional-growth:
   name: professional-growth
   description: Articles about becoming a better professional
   cover: assets/images/blog-cover-dark.png
+functional-programming:
+  name: functional-programming
+  description: How to write software that composes, hiding accidental complexity and letting you focus on the real money making problems.
+  cover: assets/images/blog-cover-dark.png
