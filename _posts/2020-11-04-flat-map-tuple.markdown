@@ -12,13 +12,17 @@ comments: true
 
 One of the fantastic things about functional programming is that you abstract away the path that took you to the data, mostly with data structures. So when you are processing the `some` state of an `Option`, you know that the object is there. When processing the `right` of an `Either`, you know you have an object that has dodged every error or alternative path. You don't get his benefit for free, as the data structure forces you to handle all of its states, you might see yourself needing three objects, all of them contained in their own instance of such a structure.
 
-I'll follow the process that got me here.
+###### What this is truly about
+
+The pattern I'm sharing here might only be useful to you if you've faced the same problem as me, considered it worth solving and ultimately arrived to a solution that didn't completely click with you. The intended value of this article is to share the almost-random chain of seemingly-disconnected events that is my train of thought operating to solve a problem.
 
 For the examples, I'll go with the `Either` monad and use for C#, [Language-ext](https://github.com/louthy/language-ext) and for Kotlin, [Arrow](https://arrow-kt.io/).
 
-So, let's say we have a insurance system and we want to print a table with the policies that a certain customer has and for that we first need the user details and the customer profile.
+So, let's say we have a insurance system and we want to print a table with the policies that a certain customer has and for that we first need the user details and the customer profile. That's our business problem. Thing is, it's never only business, we have all of these pesky issues that pop up along the way: Security, faulty connections, invalid data... Incidental complexity that usually lead to a cascade of conditionals to handle every flow distinct from our beloved happy path.
 
-These would be the functions getting us the values and the one consuming it.
+So, functional we go, we take the railway approach and model all of our exit(us) conditions in an `Error` class, put it on the left and hope for the best. 
+
+These would be the functions getting us the values and the one consuming it (ignore that they cannot fail, if you please).
 
 ```cs
 public Either<Error, User> GetUser(int id) =>
@@ -62,7 +66,7 @@ fun print(error: Error): Unit =
 
 As you can see, every piece of logic just takes the objects, taking for granted that they are in a valid states an that the program is in a portion of its state that has the objects there.
 
-And I know, the C# bit looks like it got hit in the face by an old boxing champion trying to prove that he still "has it". The syntax is not the reason I like the language. Strap yourselves, though, it gets worse when it's time to actually consume this logic. 
+There's one little annoyance, though. The `print` overload for the success path takes an `User`, a `CustomerProfile` and a list of `Policy` and what we got are three `Either`s which sets us up for some mild annoyance.
 
 Now onto the ugliness of actually consuming this for user number one:
 
@@ -90,7 +94,7 @@ fun print(): Unit =
         .fold(::print, ::identity)
 ```
 
-_Yikes!_ The Kotlin alternative is definitely cleaner but it's still a proper christmast tree of nested, hard to follow and harder to debug code. Arrow offers us a clean alternative to this, using an `fx` block:
+_Yikes!_ The Kotlin alternative is definitely cleaner but it's still a proper christmas tree of nested, hard to follow and harder to debug code. Arrow offers us a clean alternative to this, using an `fx` block:
 
 ```kotlin
 fun printFx(): Unit =
