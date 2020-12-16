@@ -39,6 +39,11 @@ public class FruitBasket
 
 This model is already part of a migration, it represents a fruit basked with a description of three fruits. The problem comes when you realise a Zucchini is not a fruit, so your first impulse would be to make remove the Zucchini field, but if we do, make a migration and the exiting version tries to insert a record in the database, we will see this in the logs:
 
+```log
+Microsoft.Data.SqlClient.SqlException
+Invalid column name 'Zucchini'.
+```
+
 Also, if we remove the field but not generate a migration, we will face this:
 
 ```log
@@ -46,6 +51,6 @@ Microsoft.Data.SqlClient.SqlException
 Cannot insert the value NULL into column 'Zucchini', table 'Fruits.dbo.FruitBaskets'; column does not allow nulls. INSERT fails.
 ```
 
-So, how do we avoid this? First, we need a running version that does not depend on the field whatsoever.
+So, how do we avoid this? This looks like a chicken-and-egg dilemma, except it does have an answer: Something comes first.
 
 <span>Photo by <a href="https://unsplash.com/@jnaberle?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jan-Niclas Aberle</a> on <a href="https://unsplash.com/s/photos/migration?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
