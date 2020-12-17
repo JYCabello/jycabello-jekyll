@@ -19,7 +19,9 @@ Insult, meet injury: The migrations are run as part of the pipeline and not the 
 - This adds a layer of security, by having your app get only limited read/write access to the database instead of the capacity to [drop tables](https://xkcd.com/327/).
 - Makes the startup faster, as you know that the database is always in the latest version.
 
-I will present the process with an example in Entity Framework Core, but the idea behind it applies to any technology you use. Even if you don't have a proper ORM, if your database migrations are part of your pipeline, this article is for you. I'm taking for granted that you know how to have a migrations-enabled project and that you know how to generate a new migration.
+I will present the process with an example in Entity Framework Core, but the idea behind it applies to any technology you use. Even if you don't have a proper ORM, if your database migrations are part of your pipeline, this article is for you.
+
+*I'm taking for granted that you know how to have a migrations-enabled project and that you know how to generate a new migration*.
 
 We'll start with this model:
 
