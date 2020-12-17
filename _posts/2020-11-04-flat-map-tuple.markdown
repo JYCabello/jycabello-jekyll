@@ -10,7 +10,7 @@ author: yeray
 comments: true
 ---
 
-One of the fantastic things about functional programming is that you abstract away the path that took you to the data, mostly with data structures. So when you are processing the `some` state of an `Option`, you know that the object is there. When processing the `right` of an `Either`, you know you have an object that has dodged every error or alternative path. You don't get his benefit for free, as the data structure forces you to handle all of its states, you might see yourself needing three objects, all of them contained in their own instance of such a structure.
+One of the fantastic things about functional programming is that you **have to** abstract away the path that took you to the data, mostly with data structures. So when you are processing the `some` state of an `Option`, you know that the object is there. When processing the `right` of an `Either`, you know you have an object that has dodged every error or alternative path. You don't get his benefit for free, as the data structure forces you to handle all of its states, you might see yourself needing three objects, all of them contained in their own instance of such a structure.
 
 ###### What this is truly about
 

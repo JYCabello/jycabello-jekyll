@@ -26,3 +26,7 @@ functional-programming:
   name: functional-programming
   description: How to write software that composes, hiding accidental complexity and letting you focus on the real money making problems.
   cover: assets/images/blog-cover-dark.png
+dot-net:
+  name: dot-net
+  description: Everything related to Microsoft's development framework.
+  cover: assets/images/blog-cover-dark.png
