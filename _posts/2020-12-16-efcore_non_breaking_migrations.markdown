@@ -29,13 +29,8 @@ We'll start with this model:
 public class FruitBasket
 {
     public string Banana { get; set; } = string.Empty;
-
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ID { get; set; }
-
     public string Pear { get; set; } = string.Empty;
-
     public string Zucchini { get; set; } = string.Empty;
 }
 ```
@@ -46,11 +41,7 @@ This model is already part of a migration, it represents a fruit basked with a d
 public class FruitBasket
 {
     public string Banana { get; set; } = string.Empty;
-
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ID { get; set; }
-
     public string Pear { get; set; } = string.Empty;
 }
 ```
@@ -78,13 +69,8 @@ The idea is to make a series of deployments that keep the existing version worki
     public class FruitBasket
     {
         public string Banana { get; set; } = string.Empty;
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-
         public string Pear { get; set; } = string.Empty;
-    
         public string? Zucchini { get; set; } = string.Empty;
     }
     ```
@@ -118,11 +104,7 @@ The idea is to make a series of deployments that keep the existing version worki
     public class FruitBasket
     {
         public string Banana { get; set; } = string.Empty;
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-
         public string Pear { get; set; } = string.Empty;
     }
     ```
