@@ -36,7 +36,7 @@ public class FruitBasket
 }
 ```
 
-# Entity Framework 3
+## Entity Framework 3
 
 Without support to abstract many-to-many relations away, we have to manually add an intermediate entity that will handle the relation, that would be:
 
@@ -160,7 +160,7 @@ var baskets = await db.BasketMakers
     .ToListAsync();
 ```
 
-# Entity Framework 5
+## Entity Framework 5
 
 You're in for a treat, this is the process to do the same in EF5 starting with the same entities:
 
