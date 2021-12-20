@@ -31,6 +31,7 @@ jobs:
         bundle install --jobs 4 --retry 3
         bundle exec jekyll build
     - name: Checkout static site and make a commit
+      if: github.ref == 'refs/heads/master'
       env:
         GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
         skip-checks: true
