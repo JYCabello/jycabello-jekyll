@@ -30,3 +30,7 @@ dot-net:
   name: dot-net
   description: Everything related to Microsoft's development framework.
   cover: assets/images/blog-cover-dark.png
+tdd:
+  name: Test Driven Development
+  description: Write a test making an assuption on how your code should work, run it, see it red, fix the code, quick and dirty, see it green, refactor.
+  cover: assets/images/blog-cover-dark.png
