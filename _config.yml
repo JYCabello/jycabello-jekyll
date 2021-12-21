@@ -19,6 +19,7 @@ source_url: https://github.com/JYCabello/jycabello-jekyll
 navigation: True # show the navbar links
 twitter: jycabello
 linkedin: jycabello
+github: JYCabello
 
 disqus: True
 disqus_shortname: ycabello
