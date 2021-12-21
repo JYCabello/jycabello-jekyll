@@ -1,2 +1,0 @@
-I"ƒ<p>So, you got some massive legacy service methods were mocking your data store is unfeasible or some situation where, for efficiency reasons, itâ€™s convenient that your logic is executed in the data store. And you got to write some automated checks to make sure that some of the assumptions you will make on your code are valid. For that, you need real records in a real database.</p>
-:ET
