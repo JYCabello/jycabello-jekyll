@@ -1,0 +1,138 @@
+I"D%<p>The very first article of this blog is about the blog itself, specifically about its release pipeline. So, to get in sync with the problem at hand, let’s take a
+trip around the nature of the blog.</p>
+
+<h4 id="about-the-blog-itself">About the blog itself</h4>
+
+<p>This is a Jekyll-powered blog hosted in github pages, for those of you unfamiliar this technologies:</p>
+<ol>
+  <li><a href="https://jekyllrb.com/">Jekyll</a> is a blogging technology written in ruby that turns markdown documents into a static site just as a regular cms would render
+blog posts stored in a database to html.</li>
+  <li><a href="https://pages.github.com/">Github pages</a> free hosting for static content and… Jekyll blogs!</li>
+</ol>
+
+<p>So… since github pages hosts Jekyll blogs out of the box, we should not need a release pipeline. Except that this site uses
+<a href="https://github.com/jekyller/jasper2">Jasper2</a> a port of <a href="https://ghost.org/">Ghost</a>’s theme, <a href="https://github.com/TryGhost/Casper">Casper</a> to Jekyll, and that’s
+where plugins come in, and since github pages do not support plugins, pipeline it is.</p>
+
+<p>Why go through all this trouble? You might ask. I have to blame <a href="https://jorgecastillo.dev/">Jorge Castillo</a> for that, as I fell in love with the feel and looks
+of his blog.</p>
+
+<p>Even worse, if you go to the <a href="https://github.com/jekyller/jasper2">Jasper2</a> site, you’ll find that it has a configuration by default to build with
+<a href="https://travis-ci.com/">Travis</a>, but Github actions just got released and I just couldn’t resist.</p>
+
+<h4 id="enough-appetizers-lets-get-to-the-main-course">Enough appetizers, let’s get to the main course</h4>
+
+<p><em>You can always find the latest version of this pipeline in the <a href="https://github.com/JYCabello/jycabello-jekyll">source repository</a></em></p>
+
+<p>The <a href="https://github.com/JYCabello/jycabello-jekyll/blob/da6e8b2a919238e5ca830e49ab40c96c4b5529b1/.github/workflows/ruby.yml">build pipeline</a> follows
+a few self-explaining steps to build the static site:</p>
+<ul>
+  <li>Triggering when pushing or merging to master.</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">master</span>
+    <span class="na">pull_request</span><span class="pi">:</span>
+      <span class="na">branches</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s">master</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Checking out the code and loading a cached install of Ruby in the build agent.</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v1</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Ruby </span><span class="m">2.6</span>
+      <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-ruby@v1</span>
+      <span class="na">with</span><span class="pi">:</span>
+        <span class="na">ruby-version</span><span class="pi">:</span> <span class="s">2.6.x</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Jekyll requires quite a bunch of gems, so it’s convenient to also cache our gems, that will shave a good five minutes of our pipeline.</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Setup ruby cache</span>
+      <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1</span>
+      <span class="na">with</span><span class="pi">:</span>
+        <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
+        <span class="na">key</span><span class="pi">:</span> <span class="s">${{ runner.os }}-gem-${{ hashFiles("**/Gemfile.lock") }}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Installing the gems (or consuming the cache if it was here)</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build static site</span>
+      <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+        <span class="s">gem install bundler</span>
+        <span class="s">bundle config path vendor/bundle</span>
+        <span class="s">bundle install --jobs 4 --retry 3</span>
+        <span class="s">bundle exec jekyll build</span>
+</code></pre></div></div>
+
+<p>That last step will build the site in the _site subdirectory of the workspace (the directory where github checks out our repository).</p>
+
+<p>Now, in order to release, we could release to another branch, I chose to do so to another repository just for the sake of it.
+For that we need to:</p>
+<ol>
+  <li>Consume a Github token with push permissions.</li>
+  <li>Configure git with our identity.</li>
+  <li>Clone the static site repository.</li>
+  <li>Copy the static site on top of it.</li>
+  <li>Commit.</li>
+  <li>Push the new version of our blog.</li>
+</ol>
+
+<h5 id="the-token-with-push-permissions">The token with push permissions.</h5>
+<p>That token is <strong>radioactive</strong> as it would allow anyone that gets a hold of it to wreck our repositories, so we have to keep it safe.
+<strong>NEVER, NEVER, EVER</strong> put such a thing in a repository, not even a private one, a friend of yours you gave access to might accidentally fork your private
+repository and there are villains out there with bots constantly scanning for people making such a mistake.</p>
+
+<p>First, generate it going through github settings, click in your profile picture and follow the steps:</p>
+
+<p><img src="assets/images/github/github_settings.png" alt="settings" width="350" />
+<img src="assets/images/github/github_access_tokens.png" alt="access_token" width="800" /></p>
+
+<p>Then set the permissions for the token to be able to <del>ruin your life</del> push to your repository. Copy the token as it will be only visible now.</p>
+
+<p><img src="assets/images/github/github_token_permissions.png" alt="token_permissions" width="800" /></p>
+
+<p>In order to have the token usable in your pipeline, you need to set it as a secret in your pipeline, I named it <code class="language-plaintext highlighter-rouge">PUSH_TOKEN</code>.</p>
+
+<p><img src="assets/images/github/github_save_token.png" alt="token_permissions" width="800" /></p>
+
+<p>Now is just a matter of consuming it. The first two lines will set your git user, make sure to set the values to your email and user name.</p>
+
+<p>Then it will go to your build agent home and clone your static site repository (if you name it <code class="language-plaintext highlighter-rouge">[githubusername].github.io</code> it will serve it straight away),
+get into the folder, make sure you are in <code class="language-plaintext highlighter-rouge">master</code> (or your chosen branch), delete all contents except the <code class="language-plaintext highlighter-rouge">.git</code> directory (for a cleanup of deleted files)
+copy the built static site, make a commit and push it back.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Checkout static site and make a commit</span>
+      <span class="na">env</span><span class="pi">:</span>
+        <span class="na">GITHUB_TOKEN</span><span class="pi">:</span> <span class="s">$</span>
+        <span class="na">skip-checks</span><span class="pi">:</span> <span class="no">true</span>
+      <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+        <span class="s">git config --global user.email "YOUR_EMAIL_ADDRESS"</span>
+        <span class="s">git config --global user.name "YOUR_USER_NAME_FOR_THE_TARGET_REPO"</span>
+        <span class="s">cd ${HOME}</span>
+        <span class="s">git clone https://x-access-token:${GITHUB_TOKEN}@github.com/YOUR_USER_NAME_FOR_THE_TARGET_REPO/MY_PAGE_NAME.github.io.git</span>
+        <span class="s">cd MY_PAGE_NAME.github.io</span>
+        <span class="s">git checkout master</span>
+        <span class="s">rm -r *</span>
+        <span class="s">cp -rf ${GITHUB_WORKSPACE}/_site/* .</span>
+        <span class="s">git add .</span>
+        <span class="s">git commit -m "From commit ${GITHUB_SHA}"</span>
+        <span class="s">git push origin master</span>
+</code></pre></div></div>
+
+<p>I’m fully aware that you might as well just have ignored the rest of the article and gone to the last part. I have no hard feelings for that,
+the reason I wrote this post is because I searched for how to do a push in a github actions pipeline and didn’t find anything, so when I did it, I thought about
+you. If you find yourself doing something that you can’t find online and manage to do it, consider doing the same.</p>
+
+<p>After all, you now know how to host a free blog.</p>
+
+<p><em>Header photo by <a href="https://commons.wikimedia.org/wiki/User:Gangulybiswarup">Biswarup Ganguly</a></em></p>
+:ET

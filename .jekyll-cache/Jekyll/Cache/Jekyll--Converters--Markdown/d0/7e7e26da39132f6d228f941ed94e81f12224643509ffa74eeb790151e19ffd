@@ -1,0 +1,148 @@
+I"-E<p>So, you got some massive legacy service methods were mocking your data store is unfeasible or some situation where, for efficiency reasons, it’s convenient that your logic is executed in the data store. And you got to write some automated checks to make sure that some of the assumptions you will make on your code are valid. For that, you need real records in a real database.</p>
+
+<p>Thing is, data is complex. You are trying to write some code that works over an order, and the order is related to a customer, a product and a seller. (We will omit every irrelevant field in the entities and have the entities be related exclusively by IDs).</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Customer</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">ID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Product</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">ID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Seller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">ID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Order</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">ID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">CustomerID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">ProductID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">SellerID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>One option is, in order to create every entity, provide all require dependencies (I tend to use static classes for the generators, feel free to break it). I’ll write everything as synchronous code to reduce noise. I’m assuming an abstracted away data store</p>
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">OrderGenerator</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="n">Order</span> <span class="nf">Generate</span><span class="p">(</span><span class="n">Customer</span> <span class="n">customer</span><span class="p">,</span> <span class="n">Product</span> <span class="n">product</span><span class="p">,</span> <span class="n">Seller</span> <span class="n">seller</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">order</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Order</span> 
+        <span class="p">{</span>
+            <span class="n">CustomerID</span> <span class="p">=</span> <span class="n">customer</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span>
+            <span class="n">ProductID</span> <span class="p">=</span> <span class="n">product</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span>
+            <span class="n">SellerID</span> <span class="p">=</span> <span class="n">seller</span><span class="p">.</span><span class="n">ID</span>
+        <span class="p">};</span>
+        <span class="c1">// I'm assuming this would set the ID on the entity, AKA cutting corners.</span>
+        <span class="n">DataStore</span><span class="p">.</span><span class="nf">Save</span><span class="p">(</span><span class="n">order</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">order</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is fine, and consuming it would look like this.</p>
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">SomeTest</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">Fact</span><span class="p">]</span>
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">TestSomethingAboutOrders</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">customer</span> <span class="p">=</span> <span class="n">CustomerGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">product</span> <span class="p">=</span> <span class="n">ProductGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">seller</span> <span class="p">=</span> <span class="n">SellerGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">order</span> <span class="p">=</span> <span class="n">OrderGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">(</span><span class="n">customer</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">seller</span><span class="p">);</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The problem with this, and the reason you are likely reading this, is that as your business logic grows, you will be writing more and more tests and copy pasting these constructs, which will eventually lead to some massive changes when we figure that something in our structure needs to change. Like that for making an order, the seller needs to actually sell the product and have it in stock. Which is perfectly avoidable, as for many of these cases, we just want the default related entities.</p>
+
+<p>It’s perfectly fine to stick with this, though, as having these generators become too entangled is usually a signal that your business logic might be a bit too coupled to your data structure and it might be time to move to simplify or even to move to an event driven architecture.</p>
+
+<h1 id="introducing-hyerarchical-test-data-generation">Introducing Hyerarchical Test Data Generation</h1>
+
+<p>This is a pattern I’ve found useful over the years in order to generate complex entity trees and to be able to switch defaults with ease.</p>
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">OrderGenerator</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="n">OrderSetup</span> <span class="nf">Generate</span><span class="p">(</span><span class="n">OrderCreation</span><span class="p">?</span> <span class="n">crt</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">creation</span> <span class="p">=</span> <span class="nf">Fill</span><span class="p">(</span><span class="n">crt</span><span class="p">);</span>
+        <span class="kt">var</span> <span class="n">order</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Order</span> 
+        <span class="p">{</span>
+            <span class="n">CustomerID</span> <span class="p">=</span> <span class="n">creation</span><span class="p">.</span><span class="n">Customer</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span>
+            <span class="n">ProductID</span> <span class="p">=</span> <span class="n">creation</span><span class="p">.</span><span class="n">Product</span><span class="p">.</span><span class="n">ID</span><span class="p">,</span>
+            <span class="n">SellerID</span> <span class="p">=</span> <span class="n">creation</span><span class="p">.</span><span class="n">Seller</span><span class="p">.</span><span class="n">ID</span>
+        <span class="p">};</span>
+        <span class="c1">// I'm assuming this would set the ID on the entity, AKA cutting corners.</span>
+        <span class="n">DataStore</span><span class="p">.</span><span class="nf">Save</span><span class="p">(</span><span class="n">order</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">OrderSetup</span>
+        <span class="p">{</span>
+            <span class="n">Customer</span> <span class="p">=</span> <span class="n">customer</span><span class="p">,</span>
+            <span class="n">Order</span> <span class="p">=</span> <span class="n">order</span><span class="p">,</span>
+            <span class="n">Product</span> <span class="p">=</span> <span class="n">product</span><span class="p">,</span>
+            <span class="n">Seller</span> <span class="p">=</span> <span class="n">seller</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="n">OrderCreationFilled</span> <span class="nf">Fill</span><span class="p">(</span><span class="n">OrderCreation</span><span class="p">?</span> <span class="n">crt</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">creation</span> <span class="p">=</span> <span class="n">crt</span> <span class="p">??</span> <span class="k">new</span> <span class="nf">OrderCreation</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">customer</span> <span class="p">=</span> <span class="n">creation</span><span class="p">.</span><span class="n">Customer</span> <span class="p">??</span> <span class="n">CustomerGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">product</span> <span class="p">=</span> <span class="n">creation</span><span class="p">.</span><span class="n">Product</span> <span class="p">??</span> <span class="n">ProductGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">seller</span> <span class="p">=</span> <span class="n">creation</span><span class="p">.</span><span class="n">Seller</span> <span class="p">??</span> <span class="n">SellerGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">();</span>
+
+        <span class="k">return</span> <span class="k">new</span> <span class="n">OrderCreationFilled</span>
+        <span class="p">{</span>
+            <span class="n">Customer</span> <span class="p">=</span> <span class="n">customer</span><span class="p">,</span>
+            <span class="n">Product</span> <span class="p">=</span> <span class="n">product</span><span class="p">,</span>
+            <span class="n">Seller</span> <span class="p">=</span> <span class="n">seller</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">OrderCreation</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">Customer</span><span class="p">?</span> <span class="n">Customer</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Product</span><span class="p">?</span> <span class="n">Product</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Seller</span><span class="p">?</span> <span class="n">Seller</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">OrderCreationFilled</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">Customer</span> <span class="n">Customer</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Product</span> <span class="n">Product</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Seller</span> <span class="n">Seller</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">OrderSetup</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">Customer</span> <span class="n">Customer</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Order</span> <span class="n">Order</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Product</span> <span class="n">Product</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Seller</span> <span class="n">Seller</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="n">init</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So, in order to create two orders for the same customer but for different products and sellers:</p>
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">SomeTest</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">Fact</span><span class="p">]</span>
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">TestSomethingAboutOrders</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">orderSetup</span> <span class="p">=</span> <span class="n">OrderGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">otherOrderSetup</span> <span class="p">=</span> <span class="n">OrderGenerator</span><span class="p">.</span><span class="nf">Generate</span><span class="p">(</span><span class="k">new</span> <span class="n">OrderCreation</span> <span class="p">{</span> <span class="n">Customer</span> <span class="p">=</span> <span class="n">orderSetup</span><span class="p">.</span><span class="n">Customer</span> <span class="p">});</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The upside of this is that we can just contain any complexity of relating the data to its parents to the <code class="language-plaintext highlighter-rouge">Fill</code> and <code class="language-plaintext highlighter-rouge">Create</code> methods.</p>
+
+<p>It’s not a perfect solution and it comes with its own pains and need for discipline, but it has simplified refactoring legacy code for me a great deal. A trade off that was been worth for me in every project I’ve used it on.</p>
+
+<p><span>Photo by <a href="https://unsplash.com/@edvardr?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Edvard Alexander Rølvaag</a> on <a href="https://unsplash.com/s/photos/hierarchy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>
+:ET
