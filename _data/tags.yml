@@ -27,10 +27,14 @@ functional-programming:
   description: How to write software that composes, hiding accidental complexity and letting you focus on the real money making problems.
   cover: assets/images/blog-cover-dark.png
 dot-net:
-  name: dot-net
+  name: .NET
   description: Everything related to Microsoft's development framework.
   cover: assets/images/blog-cover-dark.png
 tdd:
   name: Test Driven Development
+  description: Write a test making an assuption on how your code should work, run it, see it red, fix the code, quick and dirty, see it green, refactor.
+  cover: assets/images/blog-cover-dark.png
+architecture:
+  name: Architecture
   description: Write a test making an assuption on how your code should work, run it, see it red, fix the code, quick and dirty, see it green, refactor.
   cover: assets/images/blog-cover-dark.png
