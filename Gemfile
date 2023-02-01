@@ -13,3 +13,4 @@ gem "jekyll", "~> 4.3"
 gem "jekyll-paginate", "~> 1.1"
 
 gem "em-websocket", "~> 0.5.3"
+gem "dartsass", "~> 1.49"
